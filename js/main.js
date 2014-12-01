@@ -27,7 +27,17 @@
       if(count >= 3){
         count = 0;
       }
+      if ( $($thisCell).hasClass("xselected") ) {
+        alert('it is an x!');
+      };
     });
+  });
+
+  // --TURN COUNTER--//
+  var turnCounter = 0;
+  $('#set').click(function(){
+    turnCounter++;
+    return turnCounter;
   });
 
 }())
