@@ -2,4 +2,20 @@ td {
   height: 100px;
   width: 100px;
   background-color: lightgrey;
+  border: 1px solid black;
+}
+
+.unoccopied {
+  background-color: lightgrey;
+}
+
+.xselected {
+  background-image:url(http://upload.wikimedia.org/wikipedia/commons/7/73/EtruscanX-01.svg);
+  background-size: 100px 100px;
+  background-color: grey;
+}
+
+.oselected {
+  background-image: url(http://www.timelesswroughtiron.com/v/vspfiles/photos/ught-iron-house-letter-o-LET-O-2T.jpg);
+  background-size: 100px 100px;
 }
