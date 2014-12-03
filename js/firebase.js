@@ -1,5 +1,6 @@
 ;(function(){
   'use strict';
+
   function go() {
   var userId = prompt('Username?', 'Guest');
   // Consider adding '/<unique id>' if you have multiple games.

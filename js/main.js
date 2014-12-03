@@ -1,9 +1,14 @@
 ;(function(){
   'use strict';
+ var gameRef = new Firebase('https://sondatictactoe.firebaseio.com/');
+
   var matrix = [["","","",],["","",""],["","",""]];
   var turnCounter = 0;
-
+  gameRef.set({matrix: matrix, turnCounter: turnCounter})
   // ----- CREATE THE BOARD ----//
+
+makeBoard(matrix)
+function makeBoard(matrix){
   matrix.forEach(creatingRows);
     function creatingRows(rowValue){
       var $table = document.querySelector('#tictable');
@@ -11,9 +16,19 @@
       $table.appendChild($tr);
       rowValue.forEach(function(cellValue) {
       var $td = document.createElement('td');
+      $($td).text(cellValue);
       $tr.appendChild($td);
     });
   }
+};
+
+  gameRef.on('value', function(snapshot) {
+      var firebase = snapshot.val();
+      matrix = firebase.matrix;
+      turnCounter = firebase.turnCounter;
+      redrawTable(matrix);
+      console.log(matrix);
+    });
 
   // --Add Symbols to DOM and Update Matrix--//
 
@@ -27,13 +42,25 @@
       $(this).text("O");
       matrix[vertical][horizontal] = "O";
     }
-    console.log(matrix)
     turnCounter++;
     checkHorizontal(matrix);
     checkVertical(matrix);
-    checkDiagonal1(matrix);
-    checkDiagonal2(matrix)
+    checkDiagonalFromLeft(matrix);
+    checkDiagonalFromRight(matrix);
+    gameRef.set({matrix: matrix, turnCounter: turnCounter});
+    redrawTable(matrix);
   });
+
+  function redrawTable(matrix){
+    $('#tictable tr').each(function(i, row){
+      $(row).find('td').each(function(j, cell){
+        $(cell).text(matrix[i][j]);
+      });
+    });
+  };
+
+
+
 
   function checkHorizontal(matrix) {
     for(var i = 0; i < 3; i++){
@@ -59,7 +86,7 @@
     }
   }
 
-  function checkDiagonal1(matrix){
+  function checkDiagonalFromLeft(matrix){
     if(matrix[0][0] === matrix[1][1] && matrix[0][0] === matrix[2][2]) {
       if(matrix[0][0] === "X"){
         alert("Player X wins!");
@@ -69,7 +96,7 @@
     }
   }
 
-  function checkDiagonal2(matrix){
+  function checkDiagonalFromRight(matrix){
     if(matrix[0][2] === matrix[1][1] && matrix[0][2] === matrix[2][0]) {
       if(matrix[0][2] === "X"){
         alert("Player X wins!");
